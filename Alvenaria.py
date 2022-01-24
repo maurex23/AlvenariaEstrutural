@@ -10,7 +10,7 @@ def trunc(n, c):  # n = número a ser truncado; c = casas decimais desejadas
     return b
 
 
-pedireito = 280 #float(input('Altura da Parede em cm: '))  # Pergunta ao usuário a altura da Parede
+pedireito = float(input('Altura da Parede em cm: '))  # Pergunta ao usuário a altura da Parede
 fiadas = math.ceil(float(pedireito / 20.0))  # Cálculo do número de fiadas
 fiada1 = math.ceil(float(fiadas / 2))  # Cálculo do número de fiadas ímpares
 fiada2 = math.floor(float(fiadas / 2))  # Cálculo do número de fiadas pares
@@ -77,7 +77,8 @@ for a in range(0, fiada1):  # Repetição para todas fiadas impares
                         'rotation': 0})
                     i += 1
                     """Para os blocos transversais, é preciso verificar se eles pertencem ou nao as fiadas.
-                    Isso é feito atraves da comparação dos eixos do bloco com os eixos da fiada, se algum deles for concidente é porque o bloco pertence a fiada."""
+                    Isso é feito atraves da comparação dos eixos do bloco com os eixos da fiada, 
+                    se algum deles for concidente é porque o bloco pertence a fiada."""
                 elif round(entity.dxf.rotation) == 270:  # Seleção dos blocos com rotação 270
                     eixo1 = round(entity.dxf.insert[1], 3)  # Eixo da parte de cima do Bloco
                     eixo2 = round((entity.dxf.insert[1] - 7), 3)  # Eixo do meio do Bloco
@@ -554,7 +555,6 @@ if len(porta) != 0:  # Condição para verificar a presença de portas
             else:
                 i += 1
         f += 1
-
 #------------------------------------------------------- JANELA -------------------------------------------
 parede = model.query('INSERT[layer=="parede"]')  # Seleção de blocos que estao no layer "parede"
 janela = model.query('INSERT[name=="Janela"]')  # Seleção de blocos que estao no layer "Janela"
@@ -600,8 +600,8 @@ if len(janela) != 0:  # Verificando se há janelas na parede
  excluir e colocar blocos calha com graute."""
 hparede = (fiadas - 1) * 20
 hparede = trunc((pontozero + hparede - 1),2)
-parede = model.query('INSERT[layer=="parede"]')
-for i in range(0,len(parede)-1):  # Repetir procedimento para todos blocos da vista
+parede = model.query('INSERT[layer=="parede"]')  # localiza os blocos no layer parede
+for i in range(0,len(parede)):  # Repetir procedimento para todos blocos da vista
     nome = parede[i].dxf.name  # nome do bloco
     bloco = trunc(parede[i].dxf.insert[1],2)  # Coordenada y do bloco
     x = parede[i].dxf.insert[0]  # definição da coordenada x de inserção
@@ -642,7 +642,9 @@ for i in range(0,len(parede)-1):  # Repetir procedimento para todos blocos da vi
             })
     i += 1  # Contador de número de blocos
 # ---------------------------------------- VERGA PORTA -----------------------------------
-"""A verga da porta será realizada atravez da localização dos blocos que ficam logo acima da porta e até 30cm do seu vão. Depois da localização será realizada a exclusão dos mesmos e a inserção dos blocos pré definidos do tipo calha"""
+"""A verga da porta será realizada atravez da localização dos blocos que
+ ficam logo acima da porta e até 30cm do seu vão. Depois da localização será
+  realizada a exclusão dos mesmos e a inserção dos blocos pré definidos do tipo calha"""
 porta = model.query('INSERT[layer=="porta"]')  # localização  dos blocos de porta
 for i in range(0, len(porta)):  # realização da função para todas as portas
     parede = model.query('INSERT[layer=="parede"]')  # localização dos blocos que compõe a parede
@@ -677,7 +679,9 @@ for i in range(0, len(porta)):  # realização da função para todas as portas
                         'color': 4,
                     })
 #---------------------------------------- VERGA JANELA -----------------------------------
-"""A verga da janela será realizada atravez da localização dos blocos que ficam logo acima da janela e até 30cm do seu vão. Depois da localização será realizada a exclusão dos mesmos e a inserção dos blocos pré definidos do tipo calha"""
+"""A verga da janela será realizada atravez da localização dos blocos que 
+ficam logo acima da janela e até 30cm do seu vão. Depois da localização 
+será realizada a exclusão dos mesmos e a inserção dos blocos pré definidos do tipo calha"""
 janela = model.query('INSERT[name=="Janela"]')   # localização  dos blocos da janela
 for i in range(0, len(janela)):  # realização da função para todas as janelas
     parede = model.query('INSERT[layer=="parede"]')  # localização dos blocos que compõe a parede
@@ -713,7 +717,9 @@ for i in range(0, len(janela)):  # realização da função para todas as janela
                         'color': 4,
                     })
 #---------------------------------------- CONTRA VERGA JANELA -----------------------------------
-"""A contra verga da janela será realizada atravez da localização dos blocos que ficam logo abaixo da janela e até 30cm do seu vão. Depois da localização será realizada a exclusão dos mesmos e a inserção dos blocos pré definidos do tipo calha"""
+"""A contra verga da janela será realizada atravez da localização dos blocos que
+ ficam logo abaixo da janela e até 30cm do seu vão. Depois da localização será 
+ realizada a exclusão dos mesmos e a inserção dos blocos pré definidos do tipo calha"""
 janela = model.query('INSERT[name=="Janela"]')
 for i in range(0, len(janela)):
     parede = model.query('INSERT[layer=="parede"]')
@@ -749,7 +755,8 @@ for i in range(0, len(janela)):
                         'color': 4,
                     })
 #----------------------------------------------- GRAUTE ----------------------------------------
-""""O graute deve ser localizado atrevez de um bloco e layer pre definidos e inserido na forma de hachura. A Localização e inserção são realizados atravez de coordenadas."""
+""""O graute deve ser localizado atrevez de um bloco e layer pre definidos e inserido na 
+forma de hachura. A Localização e inserção são realizados atravez de coordenadas."""
 graute = model.query('INSERT[name=="graute"]')  # definição dos blocos pre definidos de graute
 graute = graute.query('INSERT[layer=="graute"]')  # seleciona os blocos de graute que estao no layer "graute"
 for i in range(0, len(graute)):  # repetir procedimento para todos grautes encontrados
@@ -761,7 +768,10 @@ for i in range(0, len(graute)):  # repetir procedimento para todos grautes encon
     hatch = model.add_hatch(color=1, dxfattribs={'layer': "graute"})  # definições da hachura, layer pre definido
     hatch.paths.add_polyline_path(point, is_closed=True)  # adiciona a hachura do graute na area pre definida
 #----------------------------------------------- FERRO VERTICAIS ------------------------------------
-"""Os ferros verticais devem ser inseridos em planta com bloco pre definido "ferro" e juntamente indicada as propriedades como bitola, numero de barras e comprimento do ferro. Apartir dai é feita a localização identificação dos atributos do bloco pre definido e inserido o ferro conforme as propriedades, atraves de uma linha vertical e texto de linha unica"""
+"""Os ferros verticais devem ser inseridos em planta com bloco pre definido "ferro" e juntamente
+ indicada as propriedades como bitola, numero de barras e comprimento do ferro. Apartir dai é feita
+  a localização identificação dos atributos do bloco pre definido e inserido o ferro conforme as 
+  propriedades, atraves de uma linha vertical e texto de linha unica"""
 ferro = model.query('INSERT[name=="ferro"]')  # localiza e identifica os blocos com nome ferro
 for i in range(0,len(ferro)):  # repete o procedimento para todos os ferros encontrados
     x = ferro[i].dxf.insert[0]  # define a coordenada x do ferro que é a mesma do ferro representado em planta
@@ -1159,7 +1169,7 @@ for b in range(0, 6):
     n += 1
     i += 30
 
-#-------------------------------------------- Quantitativo volume de concreto ------------------------
+#-------------------------------------------- Quantitativo volume de graute ------------------------
 y = model.query('INSERT[layer=="fiada2"]')
 y = y[0].dxf.insert[1]
 x = 0
@@ -1198,7 +1208,6 @@ for a in range(0,len(graute)):
     if gr == 's':
         g = np.append(g,1)
 g = np.sum(g)
-
 g = round((96.75*pedireito*g)/(1000000), 2)
 b = round(((len(BCL14)*164*14)+(len(BCL29)*164*29)+(len(BCL44)*164*44))/(1000000), 2)
 t = round(g + b, 2)

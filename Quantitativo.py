@@ -84,7 +84,7 @@ for b in range(0, 6):
                                                   'height': 5})
     n += 1
     i += 30
-#--------------------------------------------- Ferro -----------------------------------
+#--------------------------------------------- Armadura -----------------------------------
 """Realização de uma tabela com o total de aço a ser utilizado"""
 phi5 = np.array([0])  # cria uma matriz de zeros para armazenar os ferros da bitola 5mm
 phi63 = np.array([0])  # cria uma matriz de zeros para armazenar os ferros da bitola 6.3mm
@@ -265,6 +265,61 @@ for i in range(0,9):
                                                'insert': ((x+72),(y-c)),
                                                'height': 4})
     c += 10
-#---------------------------------------------Concreto----------------------------------
+#---------------------------------------------Graute----------------------------------
+graute = model.query('INSERT[name=="graute"]')  # definição dos blocos pre definidos de graute
+graute = graute.query('INSERT[layer=="graute"]')  # seleciona os blocos de graute que estao no layer "graute"
+pedireito = float(input('Altura da Parede em cm: '))  # Pergunta ao usuário a altura da Parede
+y = model.query('INSERT[layer=="fiada2"]')
+y = y[0].dxf.insert[1]
+x = 200
+y = (y - 700)
+p1 = (x, y)
+p2 = ((x + 120),(y))
+p3 = ((x + 120),(y - 60))
+p4 = ((x),(y - 60))
+rec = (p1, p2, p3, p4)
+model.add_lwpolyline(rec, format='xyb',
+close=True, dxfattribs={'color': 3})
+model.add_line([x,(y-15)], [(x+120),(y-15)], dxfattribs={'color': 3})
+model.add_line([x,(y-30)], [(x+120),(y-30)], dxfattribs={'color': 3})
+model.add_line([x+60,(y-15)], [(x+60),(y-60)], dxfattribs={'color': 3})
+model.add_text('TABELA DE GRAUTE', dxfattribs={'color': 3,
+                                               'insert': ((x+5),(y-11)),
+                                               'height': 7})
+model.add_text('Descrição', dxfattribs={'color': 3,
+                                               'insert': ((x+10),(y-25)),
+                                               'height': 5})
+model.add_text('Volume(m³)', dxfattribs={'color': 3,
+                                               'insert': ((x+70),(y-25)),
+                                               'height': 5})
+model.add_text('Vertical', dxfattribs={'color': 3,
+                                               'insert': ((x+20),(y-37)),
+                                               'height': 4})
+model.add_text('Horizontal', dxfattribs={'color': 3,
+                                               'insert': ((x+20),(y-47)),
+                                               'height': 4})
+model.add_text('Total', dxfattribs={'color': 3,
+                                               'insert': ((x+20),(y-57)),
+                                               'height': 4})
+g = np.array([0])
+for a in range(0,len(graute)):
+    gr = graute[a].get_attrib_text('QUANTITATIVO')
+    if gr == 's':
+        g = np.append(g,1)
+g = np.sum(g)
+g = round((96.75*pedireito*g)/(1000000), 2)
+b = round(((len(BCL14)*164*14)+(len(BCL29)*164*29)+(len(BCL44)*164*44))/(1000000), 2)
+t = round(g + b, 2)
+model.add_text(f'{g}', dxfattribs={'color': 3,
+                                               'insert': ((x+80),(y-37)),
+                                               'height': 4})
+model.add_text(f'{b}', dxfattribs={'color': 3,
+                                               'insert': ((x+80),(y-47)),
+                                               'height': 4})
+model.add_text(f'{t}', dxfattribs={'color': 3,
+                                               'insert': ((x+80),(y-57)),
+                                               'height': 4})
+
+
 
 dwg.saveas('Quantitativo.dxf')
