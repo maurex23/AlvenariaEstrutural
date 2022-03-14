@@ -786,7 +786,7 @@ for i in range(0,len(ferro)):  # repete o procedimento para todos os ferros enco
     model.add_line(point,point1, dxfattribs={  # Adiciona uma linha com os pontos pré definidos no layer ferro, representando a barra
         'layer': "ferro"
     })
-    model.add_line([x,(y+pedireito+49)],[x,((y+pedireito+49)+pedireito)], dxfattribs={'layer': "ferroNcontado",  # Adiciona uma linha representando as barras, porem esta linha sera localizada acima da parede junto com o restante das informações e os cortes
+    model.add_line([x,(y+pedireito+49)],[x,((y+pedireito+49)+comprimento)], dxfattribs={'layer': "ferroNcontado",  # Adiciona uma linha representando as barras, porem esta linha sera localizada acima da parede junto com o restante das informações e os cortes
                                                                                       'color': 2,
                                                                                     })
     model.add_text(f'N{i+1} {barra} Φ{bitola} - C={comprimento}', dxfattribs={'layer': "ferro",  # Adiciona informações (Numero da barra, numero de barras, bitola e comprimento) da barra inserida anteriormente
@@ -799,7 +799,7 @@ for i in range(0,len(ferro)):  # repete o procedimento para todos os ferros enco
  bitola, numero de barras e comprimento do ferro. Apartir dai é feita a localização identificação dos atributos do bloco pré
  definido e inserido o ferro conforme as propriedades, atraves de uma linha vertical e texto de linha unica"""
 ferroH = model.query('INSERT[name=="ferroHorizontal"]')  # localiza e identifica os blocos com nome ferroHorizontal
-for i in range(0, len(ferroH)):  # repete o procedimento para todos os ferros horizontais encontrados
+for i in range(1, len(ferroH)):  # repete o procedimento para todos os ferros horizontais encontrados
     alturaF = float(ferroH[i].get_attrib_text('ALTURA'))  # Define atravez dos atributos do bloco dinamico a altura do ferro Horizontal.
     barra = int(ferroH[i].get_attrib_text('BARRAS'))  # Define atravez dos atributos do bloco dinamico o número de barras.
     bitola = float(ferroH[i].get_attrib_text('BITOLA'))  # Define atravez dos atributos do bloco dinamico a bitola do ferro Horizontal.
@@ -958,7 +958,7 @@ for i in range(0,len(ferro)):  # Repete o processo para todos os ferros verticai
             phi25 = np.append(phi25,[barra * comprimento])  # Adiciona o comprimento total da barra na matriz
 """Procedimento Para as barras horizontais"""
 ferro = model.query('INSERT[name=="ferroHorizontal"]')  # Seleciona as barras horizontais
-for i in range(0,len(ferro)):  # Repete o procedimento para todas barras horizontais encontradas
+for i in range(1,len(ferro)):  # Repete o procedimento para todas barras horizontais encontradas
     x = ferro[i].dxf.insert[0]  # Busca a coordenada x do ferro
     y = ferro[i].dxf.insert[1]  # Busca a coordenada y do ferro
     point = (x,y)  # ponto onde o ferro esta em planta baixa

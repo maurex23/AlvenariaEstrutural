@@ -123,7 +123,7 @@ for i in range(0,len(ferro)):  # Repete o processo para todos os ferros verticai
             phi25 = np.append(phi25,[barra * comprimento])  # Adiciona o comprimento total da barra na matriz
 """Procedimento Para as barras horizontais"""
 ferro = model.query('INSERT[name=="ferroHorizontal"]')  # Seleciona as barras horizontais
-for i in range(0,len(ferro)):  # Repete o procedimento para todas barras horizontais encontradas
+for i in range(1,len(ferro)):  # Repete o procedimento para todas barras horizontais encontradas
     x = ferro[i].dxf.insert[0]  # Busca a coordenada x do ferro
     y = ferro[i].dxf.insert[1]  # Busca a coordenada y do ferro
     point = (x,y)  # ponto onde o ferro esta em planta baixa
