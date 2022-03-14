@@ -794,12 +794,13 @@ for i in range(0,len(ferro)):  # repete o procedimento para todos os ferros enco
                                                                                 'height': 5,
                                                                                 'insert': (x-1,(((y+pedireito+49)+(y+pedireito+49)+pedireito))/2),
                                                                               })
+    ultimoFerro = i
 #--------------------------------------------------------- FERRO HORIZONTAIS-------------------------------------------
 """Os ferros horizontais devem ser inseridos em planta com bloco pre definido "ferroHorizontal" e juntamente indicada as propriedades como
  bitola, numero de barras e comprimento do ferro. Apartir dai é feita a localização identificação dos atributos do bloco pré
  definido e inserido o ferro conforme as propriedades, atraves de uma linha vertical e texto de linha unica"""
 ferroH = model.query('INSERT[name=="ferroHorizontal"]')  # localiza e identifica os blocos com nome ferroHorizontal
-for i in range(1, len(ferroH)):  # repete o procedimento para todos os ferros horizontais encontrados
+for i in range(0, len(ferroH)):  # repete o procedimento para todos os ferros horizontais encontrados
     alturaF = float(ferroH[i].get_attrib_text('ALTURA'))  # Define atravez dos atributos do bloco dinamico a altura do ferro Horizontal.
     barra = int(ferroH[i].get_attrib_text('BARRAS'))  # Define atravez dos atributos do bloco dinamico o número de barras.
     bitola = float(ferroH[i].get_attrib_text('BITOLA'))  # Define atravez dos atributos do bloco dinamico a bitola do ferro Horizontal.
@@ -816,7 +817,7 @@ for i in range(1, len(ferroH)):  # repete o procedimento para todos os ferros ho
                    dxfattribs={'layer': "ferroNcontado",
                                'color': 2,
                                })
-    model.add_text(f'N{i + 1} {barra} Φ{bitola} - C={comprimento}', dxfattribs={'layer': "ferro",  # Adiciona um texto com as informações da barra
+    model.add_text(f'N{ultimoFerro + i + 2} {barra} Φ{bitola} - C={comprimento}', dxfattribs={'layer': "ferro",  # Adiciona um texto com as informações da barra
         'rotation': 0,
         'height': 5,
         'insert': (x,pontozero-(i+1)*10)})
